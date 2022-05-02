@@ -10,6 +10,7 @@ import org.openqa.selenium.devtools.v85.backgroundservice.BackgroundService;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -69,5 +70,37 @@ public class AllTests {
         System.out.println("Assertion Passed: 95");
     }
 
-    
+    @Test
+    public void test3() throws InterruptedException{
+        System.out.println("Test Started.");
+        driver.get("https://www.lambdatest.com/selenium-playground/");
+        driver.findElement(By.xpath("//a[text()='Input Form Submit']")).click();
+        Thread.sleep(3000);
+        /**
+         * Fill the fields
+         */
+
+        driver.findElement(By.id("name")).sendKeys("John Doe");
+        driver.findElement(By.id("inputEmail4")).sendKeys("JohnDoe@test.com");
+        driver.findElement(By.id("inputPassword4")).sendKeys("Test123");
+        driver.findElement(By.id("company")).sendKeys("TestCompany");
+        driver.findElement(By.id("websitename")).sendKeys("TestCompany.com");
+        WebElement countryDropdown = driver.findElement(By.xpath("//select[@name='country']"));
+        Select s = new Select(countryDropdown);
+        s.selectByValue("CA");
+        driver.findElement(By.id("inputCity")).sendKeys("Test City");
+        driver.findElement(By.id("inputAddress2")).sendKeys("123 Test Street");
+        driver.findElement(By.id("inputAddress1")).sendKeys("Near TestLandmark");
+        driver.findElement(By.id("inputState")).sendKeys("Test State");
+        driver.findElement(By.id("inputZip")).sendKeys("12345");
+
+
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+        Thread.sleep(3000);
+        String actSuccessMsg = driver.findElement(By.xpath("(//form[@id='seleniumform']/following::p)[1]")).getText();
+        String EXP_MSG = "Thanks for contacting us, we will get back to you shortly.";
+        Assert.assertEquals(actSuccessMsg,EXP_MSG);
+        System.out.println("Assertion Passed - ***");
+    }
+
 }
